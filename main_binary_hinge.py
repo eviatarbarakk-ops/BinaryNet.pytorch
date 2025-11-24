@@ -241,7 +241,7 @@ def forward(data_loader, model, criterion, epoch=0, training=True, optimizer=Non
         #import pdb; pdb.set_trace()
         if  criterion.__class__.__name__=='HingeLoss':
             target=target.unsqueeze(1)
-            target_onehot = torch.cuda.FloatTensor(target.size(0), output_dim)
+            target_onehot = inputs.new_empty(target.size(0), output_dim)
             target_onehot.fill_(-1)
             target_onehot.scatter_(1, target, 1)
             target=target.squeeze()

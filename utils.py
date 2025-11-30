@@ -63,9 +63,19 @@ class ResultsLog(object):
             plot = column(*self.figures)
             show(plot)
 
-    #def plot(self, *kargs, **kwargs):
-    #    line = Line(data=self.results, *kargs, **kwargs)
-    #    self.figures.append(line)
+    def plot(self, x, y, title=None, xlabel=None, ylabel=None):
+        # Simple plotting using bokeh
+        if isinstance(y, str):
+            y = [y]
+        
+        p = figure(title=title, x_axis_label=xlabel or x, y_axis_label=ylabel or y[0])
+        colors = ['red', 'blue', 'green', 'orange', 'purple']
+        
+        for i, col in enumerate(y):
+            if col in self.results.columns:
+                p.line(self.results[x], self.results[col], legend_label=col, line_color=colors[i % len(colors)], line_width=2)
+        
+        self.figures.append(p)
 
     def image(self, *kargs, **kwargs):
         fig = figure()

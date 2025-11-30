@@ -24,7 +24,7 @@ model_names = sorted(name for name in models.__dict__
 
 parser = argparse.ArgumentParser(description='PyTorch ConvNet Training')
 
-parser.add_argument('--results_dir', metavar='RESULTS_DIR', default='/media/hdd/ihubara/BinaryNet.pytorch/results',
+parser.add_argument('--results_dir', metavar='RESULTS_DIR', default='./results',
                     help='results dir')
 parser.add_argument('--save', metavar='SAVE', default='',
                     help='saved folder')
@@ -241,7 +241,7 @@ def forward(data_loader, model, criterion, epoch=0, training=True, optimizer=Non
         #import pdb; pdb.set_trace()
         if  criterion.__class__.__name__=='HingeLoss':
             target=target.unsqueeze(1)
-            target_onehot = torch.cuda.FloatTensor(target.size(0), output_dim)
+            target_onehot = torch.Tensor(target.size(0), output_dim).type(args.type)
             target_onehot.fill_(-1)
             target_onehot.scatter_(1, target, 1)
             target=target.squeeze()

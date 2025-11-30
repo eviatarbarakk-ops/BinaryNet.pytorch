@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  binarynet:
+    build: .
+    image: binarynet:latest
+    volumes:
+      - ./results:/app/results
+      - ${DATASETS_PATH:-./data}:/data
+    environment:
+      - DATASETS_PATH=/data
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    command: ["--model", "alexnet_binary", "--dataset", "cifar10"]
